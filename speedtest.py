@@ -10,6 +10,12 @@ stats = cmd.run('speedtest-cli')
 # Download: 38.87 Mbits/s
 # Upload: 5.29 Mbits/s
 
+ping = re.compile( r']: ([0-9]*\.[0-9]*.*)\n').findall(stats)
+if len(ping) > 0:
+    ping = ping[0]
+else:
+    ping = "ERROR"
+
 download = re.compile( r'Download: ([0-9]*\.[0-9]*.*)\n').findall(stats)
 if len(download) > 0:
     download = download[0]
@@ -26,8 +32,8 @@ else:
 
 time = timestamp.now()
 
-string = time + ', ' + download + ', ' + upload
+string = time + ', ' + download + ', ' + upload + ', ' + ping
 
 f = open("speedLog.txt", 'a')
-f.write(s + "\n")
+f.write(string + "\n")
 f.close()
